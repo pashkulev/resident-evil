@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="~{fragments/head-tag}">
+<body>
+
+    <header th:insert="~{fragments/navigation :: navbar}">
+
+    </header>
+
+    <main>
+        <th:block th:include="~{fragments/notifications}">
+
+        </th:block>
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="text-center">Sorry, an error occured:))</h1>
+                <h3 class="text-center text-info">
+                    <span id="statusCode" th:text="|${status}|"></span>
+                    <span id="statusPhrase"></span>
+                </h3>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div th:replace="~{fragments/scripts}"></div>
+    <script>
+        $(() => {
+           let statusCode = $("#statusCode").text();
+           let statusPhrase = $("#statusPhrase");
+           switch (statusCode) {
+               case "400": statusPhrase.text("BadRequest"); break;
+               case "404": statusPhrase.text("Not Found"); break;
+               case "500": statusPhrase.text("Internal Server Error"); break;
+           }
+        });
+    </script>
+</body>
+</html>

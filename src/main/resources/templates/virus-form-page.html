@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="~{fragments/head-tag}">
+</head>
+
+<body>
+
+    <header th:insert="~{fragments/navigation :: navbar}">
+
+    </header>
+
+    <main th:insert="~{fragments/virus-form :: form}">
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

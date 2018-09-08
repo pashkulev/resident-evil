@@ -1,0 +1,37 @@
+header {
+    background: #a5144f;
+}
+
+li>a {
+    color: rgb(234, 175, 160);
+}
+
+li>a:hover {
+    color: white;
+}
+
+#logo {
+    color: white;
+}
+
+/*#logo:hover {*/
+    /*outline-color: #1b1e21;*/
+/*}*/
+
+.dropdown-menu {
+    background: #a5144f;
+    color: rgb(234, 175, 160);
+}
+
+.dropdown-item {
+    color: #e9ae9f;
+}
+
+.dropdown-item:hover {
+    background: #e9ae9f;
+    color: black;
+}
+
+input[type='radio'] {
+    margin-right: 5px;
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="~{fragments/head-tag}">
+</head>
+
+<body>
+
+    <header th:insert="~{fragments/navigation :: navbar}">
+
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row" th:if="${successMessage} != null">
+                <div class="alert alert-success alert-dismissible w-100">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span th:text="${successMessage}"></span>
+                </div>
+            </div>
+            <h2 class="mt-4">All Viruses</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Magnitude</th>
+                        <th>Released On</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="virus, iterator : ${viruses}" th:object="${virus}">
+                        <td th:text="${iterator.index + 1}"></td>
+                        <td th:text="*{name}"></td>
+                        <td th:text="*{magnitude}"></td>
+                        <td th:with="date = ${virus.releasedOn}" th:text="${#temporals.format(date, 'dd-MMM-yyyy')}"></td>
+                        <td>
+                            <form sec:authorize="hasAnyAuthority('MODERATOR', 'ADMIN')" class="form-inline float-right" th:action="@{/viruses/{id}/delete (id=*{id})}" th:method="post">
+                                <a class="btn btn-outline-dark ml-2 mt-2" th:href="@{/viruses/{id}/edit (id=*{id})}">Edit</a>
+                                <input th:data="*{name}" type="submit" class="btn btn-outline-dark ml-2 mt-2 del-btn" value="Delete" />
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div th:replace="~{fragments/scripts}"></div>
+    <script>
+        $(document).ready(function () {
+            $(".del-btn").click(function (event) {
+                let virusName = $(event.target).attr("data");
+                return confirm(`Are you sure you want to delete virus '${virusName}'?`);
+            })
+        })
+    </script>
+</body>
+</html>

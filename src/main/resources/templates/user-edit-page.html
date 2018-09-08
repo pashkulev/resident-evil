@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="~{fragments/head-tag}">
+</head>
+
+<body>
+
+    <header th:insert="~{fragments/navigation :: navbar}">
+
+    </header>
+
+    <main>
+        <div class="container mt-4">
+            <form th:action="@{/users/edit}" th:method="post" th:object="${user}">
+                <div class="form-group row">
+                    <div class="offset-4 col-7">
+                        <h1>Edit User</h1>
+                    </div>
+                </div>
+
+                <input type="text" hidden="hidden" th:field="*{id}" />
+
+                <div class="form-group row">
+                    <div class="offset-1 col-3">
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="col-7">
+                        <input th:field="*{username}" class="form-control" type="text" id="username"
+                               th:classappend="${#fields.hasErrors('username')} ? 'border border-danger'" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('username')}" th:each="error : ${#fields.errors('username')}"
+                         class="offset-4 col-7">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                    <div th:if="${userExistsMessage != null}" class="offset-4 col-7">
+                        <small class="text-danger" th:text="${userExistsMessage}"></small>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="offset-1 col-3">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="col-7">
+                        <input th:field="*{email}" class="form-control" type="text" id="email"
+                               th:classappend="${#fields.hasErrors('email')} ? 'border border-danger'" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('email')}" th:each="error : ${#fields.errors('email')}"
+                         class="offset-4 col-7">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                    <div th:if="${emailExistsMessage != null}" class="offset-4 col-7">
+                        <small class="text-danger" th:text="${emailExistsMessage}"></small>
+                    </div>
+                </div>
+
+                <div class="form-group row d-none">
+                    <div class="offset-1 col-3">
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="col-7">
+                        <input th:field="*{password}" class="form-control" type="text" id="password"
+                               th:classappend="${#fields.hasErrors('password')} ? 'border border-danger'" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('password')}" th:each="error : ${#fields.errors('password')}"
+                         class="offset-4 col-7">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="offset-1 col-3">
+                        <label>Authorities</label>
+                    </div>
+                    <div class="col-7">
+                        <div class="row">
+                            <span class="col-8 col-md-4">USER</span>
+                            <span class="col-4">
+                                <input type="checkbox" class="form-check-input" value="USER"
+                                       th:field="*{roles}" checked />
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-8 col-md-4">MODERATOR</span>
+                            <span class="col-4">
+                                <input type="checkbox" class="form-check-input" value="MODERATOR"
+                                       th:field="*{roles}"
+                                       th:checked="${user.roles.contains('MODERATOR')}" />
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-8 col-md-4">ADMIN</span>
+                            <span class="col-4">
+                                <input type="checkbox" class="form-check-input" value="ADMIN"
+                                       th:field="*{roles}"
+                                       th:checked="${user.roles.contains('ADMIN')}" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <input
+                        type="hidden"
+                        th:name="${_csrf.parameterName}"
+                        th:value="${_csrf.token}" />
+                <div class="form-group row">
+                    <div class="offset-4 col-7">
+                        <input class="btn btn-primary" type="submit" value="Edit"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

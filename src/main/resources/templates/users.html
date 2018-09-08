@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="~{fragments/head-tag}">
+</head>
+
+<body>
+
+    <header th:insert="~{fragments/navigation :: navbar}">
+
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row" th:if="${successMessage} != null">
+                <div class="alert alert-success alert-dismissible w-100">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <span th:text="${successMessage}"></span>
+                </div>
+            </div>
+            <h2 class="mt-4">All Users</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Authorities</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user, iterator : ${users}" th:object="${user}">
+                        <td th:text="${iterator.index + 1}"></td>
+                        <td th:text="*{username}"></td>
+                        <td th:text="*{email}"></td>
+                        <td th:text="*{roles}"></td>
+                        <td align="right">
+                            <a class="btn btn-outline-dark ml-2 mt-2" th:href="@{/users/{id}/edit (id=*{id})}">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

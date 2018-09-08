@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="~{fragments/head-tag}">
+</head>
+
+<body>
+
+    <header th:insert="~{fragments/navigation :: navbar}">
+
+    </header>
+
+    <main>
+        <th:block th:insert="~{fragments/notifications}">
+
+        </th:block>
+
+        <th:block th:with="url = ${#httpServletRequest.getRequestURI()}">
+            <div class="container mt-4" th:with="isLogin = ${#strings.contains(url, 'login')}">
+                <form th:method="post" th:object="${user}">
+
+                    <div class="form-group row">
+                        <div class="offset-4 col-7">
+                            <h1 th:text="${isLogin} ? 'Login' : 'Register'"></h1>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-1 col-3">
+                            <label for="username">Username</label>
+                        </div>
+                        <div class="col-7">
+                            <input th:field="*{username}" class="form-control" type="text" id="username"
+                                   th:classappend="${#fields.hasErrors('username')} ? 'border border-danger'" />
+                        </div>
+                        <div th:if="${#fields.hasErrors('username')}" th:each="error : ${#fields.errors('username')}"
+                             class="offset-4 col-7">
+                            <small class="text-danger" th:text="${error}"></small>
+                        </div>
+                        <div th:if="${userExistsMessage != null}" class="offset-4 col-7">
+                            <small class="text-danger" th:text="${userExistsMessage}"></small>
+                        </div>
+                    </div>
+                    <div th:unless="${isLogin}" class="form-group row">
+                        <div class="offset-1 col-3">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="col-7">
+                            <input th:field="*{email}" class="form-control" type="text" id="email"
+                                   th:classappend="${#fields.hasErrors('email')} ? 'border border-danger'" />
+                        </div>
+                        <div th:if="${#fields.hasErrors('email')}" th:each="error : ${#fields.errors('email')}"
+                             class="offset-4 col-7">
+                            <small class="text-danger" th:text="${error}"></small>
+                        </div>
+                        <div th:if="${emailExistsMessage != null}" class="offset-4 col-7">
+                            <small class="text-danger" th:text="${emailExistsMessage}"></small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-1 col-3">
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="col-7">
+                            <input th:field="*{password}" class="form-control" type="password" id="password"
+                                   th:classappend="${#fields.hasErrors('password')} ? 'border border-danger'" />
+                        </div>
+                        <div th:if="${#fields.hasErrors('password')}" th:each="error : ${#fields.errors('password')}"
+                             class="offset-4 col-7">
+                            <small class="text-danger" th:text="${error}"></small>
+                        </div>
+
+                    </div>
+                    <div th:unless="${isLogin}" class="form-group row">
+                        <div class="offset-1 col-3">
+                            <label for="confirm">Confirm Password</label>
+                        </div>
+                        <div class="col-7">
+                            <input th:field="*{confirm}" class="form-control" type="password" id="confirm"
+                                   th:classappend="${#fields.hasErrors('confirm')} ? 'border border-danger'" />
+                        </div>
+                        <div th:if="${#fields.hasErrors('confirm')}" th:each="error : ${#fields.errors('confirm')}"
+                             class="offset-4 col-7">
+                            <small class="text-danger" th:text="${error}"></small>
+                        </div>
+                        <div class="offset-4 col-7">
+                            <small class="text-danger"
+                                   th:if="${#fields.hasErrors('global')}" th:errors="*{global}">
+                                Passwords don't match
+                            </small>
+                        </div>
+                    </div>
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}" />
+                    <div class="form-group row">
+                        <div class="offset-4 col-7">
+                            <input class="btn" type="submit"
+                                   th:classappend="${isLogin} ? 'btn-success' : 'btn-primary'"
+                                   th:value="${isLogin} ? 'Login' : 'Register'" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </th:block>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

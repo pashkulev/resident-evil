@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="~{fragments/head-tag}">
+<body>
+
+    <header th:insert="~{fragments/navigation :: navbar}">
+
+    </header>
+
+    <main>
+        <th:block th:include="~{fragments/notifications}">
+
+        </th:block>
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="text-center">Resident Evil Home Page</h1>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+
+    </footer>
+
+    <div th:replace="~{fragments/scripts}"></div>
+</body>
+</html>

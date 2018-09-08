@@ -1,0 +1,229 @@
+<div th:with="uri = ${#httpServletRequest.getRequestURI()}"
+     th:fragment="form" class="container mt-4">
+    <div th:with="isAdd = ${#strings.contains(uri, 'add')}">
+        <form th:action="${isAdd} ? '/viruses/add' : '/viruses/edit'" th:method="post" th:object="${virus}">
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <h2 th:text="${isAdd} ? 'Spread a new Virus!' : 'Edit Virus!'"></h2>
+                </div>
+            </div>
+
+            <div th:unless="${isAdd}" class="form-group row d-none">
+                <input type="number" th:field="*{id}"/>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label for="name">Name</label>
+                </div>
+
+                <div class="offset-2 col-8">
+                    <input id="name" class="form-control" type="text" th:field="*{name}"
+                           th:classappend="${#fields.hasErrors('name')} ? 'border border-danger'" />
+                </div>
+
+                <th:block th:if="${#fields.hasErrors('name')}">
+                    <div class="offset-2 col-8" th:each="error : ${#fields.errors('name')}">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label for="description">Description</label>
+                </div>
+
+                <div class="offset-2 col-8">
+                        <textarea id="description" class="form-control" type="text" th:field="*{description}"
+                                  th:classappend="${#fields.hasErrors('description')} ? 'border border-danger'">
+                        </textarea>
+                </div>
+
+                <th:block th:if="${#fields.hasErrors('description')}">
+                    <div class="offset-2 col-8" th:each="error : ${#fields.errors('description')}">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label for="sideEffects">Side Effects</label>
+                </div>
+
+                <div class="offset-2 col-8">
+                    <input id="sideEffects" class="form-control" type="text" th:field="*{sideEffects}"
+                           th:classappend="${#fields.hasErrors('sideEffects')} ? 'border border-danger'" />
+                </div>
+
+                <th:block th:if="${#fields.hasErrors('sideEffects')}">
+                    <div class="offset-2 col-8" th:each="error : ${#fields.errors('sideEffects')}">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label>Creator</label>
+                </div>
+
+                <div class="offset-2 col-8">
+                    <div class="radio">
+                        <label class="mr-5"><input class="mr-2" type="radio" name="creator"
+                                                   th:value="Corp" th:field="*{creator}" />Corp</label>
+                        <label class="mr-5"><input class="mr-2" type="radio" name="creator"
+                                                   th:value="corp" th:field="*{creator}" />corp</label>
+                    </div>
+                </div>
+
+                <th:block th:if="${#fields.hasErrors('creator')}">
+                    <div class="offset-2 col-8" th:each="error : ${#fields.errors('creator')}">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="form-group row">
+                <div class="form-check offset-2 col-8">
+                    <label for="deadly" class="form-check-label ml-3">
+                        <input id="deadly" type="checkbox" class="form-check-input"
+                               th:field="*{isDeadly}"  />Is Deadly?
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="form-check offset-2 col-8">
+                    <label for="curable" class="form-check-label ml-3">
+                        <input id="curable" type="checkbox" class="form-check-input"
+                               th:field="*{isCurable}" value="" />Is Curable?
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label>Mutation</label>
+                </div>
+                <div class="offset-2 col-8">
+                    <div class="radio">
+                        <label><input type="radio" th:value="ZOMBIE" th:field="*{mutation}" />ZOMBIE</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" th:value="T_078_TYRANT" th:field="*{mutation}" />T_078_TYRANT</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" th:value="GIANT_SPIDER" th:field="*{mutation}" />GIANT_SPIDER</label>
+                    </div>
+                    <div class="radio disabled">
+                        <label><input type="radio" disabled />Save Humanity</label>
+                    </div>
+                </div>
+
+                <th:block th:if="${#fields.hasErrors('mutation')}">
+                    <div class="offset-2 col-8" th:each="error : ${#fields.errors('mutation')}">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label for="turnoverRate">Turnover Rate</label>
+                </div>
+
+                <div class="offset-2 col-8">
+                    <input id="turnoverRate" class="form-control" type="number" min="0" max="100"
+                           th:field="*{turnoverRate}" />
+                </div>
+
+                <th:block th:if="${#fields.hasErrors('turnoverRate')}">
+                    <div class="offset-2 col-8" th:each="error : ${#fields.errors('turnoverRate')}">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="form-group row" th:classappend="${#fields.hasErrors('hoursUntilTurn')} ? 'has-danger'">
+                <div class="offset-2 col-8">
+                    <label for="hoursUntilTurn">Hours Until Turn</label>
+                </div>
+
+                <div class="offset-2 col-8">
+                    <input id="hoursUntilTurn" class="form-control" type="number" min="1" max="12"
+                           th:field="*{hoursUntilTurn}"
+                           th:classappend="${#fields.hasErrors('hoursUntilTurn')} ? 'border border-danger'" />
+                </div>
+
+                <th:block th:if="${#fields.hasErrors('hoursUntilTurn')}">
+                    <div class="offset-2 col-8" th:each="error : ${#fields.errors('hoursUntilTurn')}">
+                        <small class="text-danger" th:text="${error}"></small>
+                    </div>
+                </th:block>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label for="magnitude">Magnitude</label>
+                </div>
+                <div class="offset-2 col-8">
+                    <select id="magnitude" class="form-control" th:field="*{magnitude}">
+                        <option th:value="LOW">Low</option>
+                        <option th:value="MEDIUM">Medium</option>
+                        <option th:value="HIGH">High</option>
+                    </select>
+                </div>
+            </div>
+
+            <div th:replace="~{fragments/virus-form :: date-field}"></div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <label for="capitals">Affected Capitals</label>
+                </div>
+
+                <div class="offset-2 col-8">
+                    <select th:classappend="${noCapitals} ? 'border border-danger'" size="5" id="capitals"
+                            class="form-control" name="capitals" multiple>
+                        <th:block th:each="capital : ${#session.getAttribute('capitals')}">
+                            <option  th:value="${capital.id}" th:text="${capital.name}"
+                                     th:selected="${isAdd == false && capital.isSelected} ? 'selected'"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+                <div class="offset-2 col-8" th:if="${noCapitals}">
+                    <small class="text-danger">You must select capitals!</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="offset-2 col-8">
+                    <input class="btn btn-danger" type="submit"
+                           th:value="${isAdd} ? 'Create Virus' : 'Edit Virus'" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="form-group row" th:fragment="date-field" th:classappend="!${isAdd} ? 'd-none'">
+    <div class="offset-2 col-8">
+        <label for="releasedOn">Release Date</label>
+    </div>
+
+    <div class="offset-2 col-8">
+        <input id="releasedOn" class="form-control" type="date"
+               th:field="*{releasedOn}"
+               th:classappend="${#fields.hasErrors('releasedOn')} ? 'border border-danger'" />
+    </div>
+
+    <th:block th:if="${#fields.hasErrors('releasedOn')}">
+        <div class="offset-2 col-8" th:each="error : ${#fields.errors('releasedOn')}">
+            <small class="text-danger" th:text="${error}"></small>
+        </div>
+    </th:block>
+</div>
+
